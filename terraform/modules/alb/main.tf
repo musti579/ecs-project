@@ -27,3 +27,15 @@ resource "aws_security_group" "alb_sg" {
     Name = "threatmod-alb-sg"
   }
 }
+
+resource "aws_lb" "app" {
+  name               = "threatmod-alb"
+  internal           = false
+  load_balancer_type = "application"
+  security_groups    = [aws_security_group.alb_sg.id]
+  subnets            = var.public_subnet_ids
+
+  tags = {
+    Name = "threatmod-alb"
+  }
+}
