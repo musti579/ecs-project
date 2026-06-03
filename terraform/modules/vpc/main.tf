@@ -37,3 +37,16 @@ resource "aws_internet_gateway" "gw" {
     Name = "public-igw"
   }
 }
+
+resource "aws_route_table" "public_rt" {
+  vpc_id = aws_vpc.vpc.id
+
+  route {
+    cidr_block = var.rt_cidr_block
+    gateway_id = aws_internet_gateway.gw.id
+  }
+
+  tags = {
+    Name = "public-route-table"
+  }
+}

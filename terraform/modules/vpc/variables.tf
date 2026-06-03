@@ -16,3 +16,7 @@ variable "az_1" {
 variable "az_2" {
   default = "eu-north-1b"
 }
+
+variable "rt_cidr_block" {
+  default = "0.0.0.0/0"
+}
