@@ -55,3 +55,46 @@ resource "aws_ecs_task_definition" "app" {
 
   
 }
+
+resource "aws_security_group" "ecs_sg" {
+  name   = "threatmod-ecs-sg"
+  vpc_id = var.vpc_id
+
+  ingress {
+    from_port       = 3000
+    to_port         = 3000
+    protocol        = "tcp"
+    security_groups = [var.alb_security_group_id]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "threatmod-ecs-sg"
+  }
+}
+
+resource "aws_ecs_service" "app" {
+  name            = "threatmod-service"
+  cluster         = aws_ecs_cluster.cluster.id
+  task_definition = aws_ecs_task_definition.app.arn
+  desired_count   = 1
+  launch_type     = "FARGATE"
+
+  network_configuration {
+    subnets          = var.public_subnet_ids
+    security_groups  = [aws_security_group.ecs_sg.id]
+    assign_public_ip = true
+  }
+
+  load_balancer {
+    target_group_arn = var.target_group_arn
+    container_name   = "threatmod-container"
+    container_port   = 3000
+  }
+}
