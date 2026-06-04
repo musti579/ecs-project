@@ -8,6 +8,7 @@ module "alb" {
 
   vpc_id            = module.vpc.aws_vpc
   public_subnet_ids = module.vpc.public_subnet_ids
+  certificate_arn   = module.acm.certificate_arn
 }
 
 module "ecs" {
