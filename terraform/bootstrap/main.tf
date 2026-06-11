@@ -76,7 +76,11 @@ resource "aws_iam_policy" "github_actions_ecr_push" {
           "ecr:PutImage",
           "ecr:BatchGetImage",
           "ecr:DescribeRepositories",
-          "ecr:DescribeImages"
+          "ecr:DescribeImages",
+          "ecs:DescribeTaskDefinition",
+          "ecs:RegisterTaskDefinition",
+          "ecs:UpdateService",
+          "ecs:DescribeServices"
         ]
         Resource = data.aws_ecr_repository.ecs_project.arn
       }
