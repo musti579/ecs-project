@@ -1,0 +1,8 @@
+name : push Dockeer image to ECR
+
+on: [push]
+branches: [main]
+
+permission:
+  id-token: write
+  content: read
