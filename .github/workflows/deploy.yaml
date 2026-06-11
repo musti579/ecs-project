@@ -15,6 +15,7 @@ jobs:
       - name: Download current ECS task definition
         run: |
           aws ecs describe-task-definition \
+            --region eu-north-1 \
             --task-definition ecs-app \
             --query taskDefinition \
             > task-definition.json
