@@ -62,63 +62,21 @@ resource "aws_iam_policy" "github_actions_ecr_push" {
     Version = "2012-10-17"
     Statement = [
       {
-        Effect   = "Allow"
-        Action   = ["ecr:GetAuthorizationToken"]
-        Resource = "*"
-      },
-      {
         Effect = "Allow"
         Action = [
-          "ecr:BatchCheckLayerAvailability",
-          "ecr:InitiateLayerUpload",
-          "ecr:UploadLayerPart",
-          "ecr:CompleteLayerUpload",
-          "ecr:PutImage",
-          "ecr:BatchGetImage",
-          "ecr:DescribeRepositories",
-          "ecr:DescribeImages"
-        ]
-        Resource = data.aws_ecr_repository.ecs_project.arn
-      },
-      {
-        Effect = "Allow"
-        Action = [
-          "ecs:DescribeTaskDefinition",
-          "ecs:RegisterTaskDefinition",
-          "ecs:UpdateService",
-          "ecs:DescribeServices"
+          "ec2:*",
+          "ecs:*",
+          "ecr:*",
+          "elasticloadbalancing:*",
+          "logs:*",
+          "cloudwatch:*",
+          "iam:*",
+          "acm:*",
+          "route53:*",
+          "s3:*"
         ]
         Resource = "*"
-      },
-      {
-        Effect = "Allow"
-        Action = [
-          "iam:PassRole"
-        ]
-        Resource = "*"
-        Condition = {
-          StringEquals = {
-            "iam:PassedToService" = "ecs-tasks.amazonaws.com"
-          }
-        }
-      },
-      {
-        Effect = "Allow"
-        Action = [
-          "s3:ListBucket"
-        ]
-        Resource = "arn:aws:s3:::terraform-state-musti"
-      },
-      {
-        Effect = "Allow"
-        Action = [
-          "s3:GetObject",
-          "s3:PutObject",
-          "s3:DeleteObject"
-        ]
-        Resource = "arn:aws:s3:::terraform-state-musti/*"
       }
-
     ]
   })
 }
