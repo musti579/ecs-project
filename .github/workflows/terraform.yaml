@@ -1,0 +1,106 @@
+name: Terraform
+
+on:
+  workflow_dispatch:
+    inputs:
+      action:
+        description: "Choose what Terraform should do"
+        required: true
+        type: choice
+        options:
+          - plan
+          - apply
+          - destroy
+      confirm:
+        description: "Type CONFIRM to run apply or destroy"
+        required: false
+        default: ""
+        type: string
+
+permissions:
+  id-token: write
+  contents: read
+  security-events: write
+
+jobs:
+  scan:
+    name: Scan Terraform
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: terraform
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup TFLint
+        uses: terraform-linters/setup-tflint@v4
+
+      - name: Run TFLint
+        continue-on-error: true
+        run: |
+          tflint --init
+          tflint --recursive
+
+      - name: Run Checkov
+        uses: bridgecrewio/checkov-action@master
+        with:
+          directory: terraform/
+          framework: terraform
+          soft_fail: true
+
+  terraform:
+    name: Terraform ${{ inputs.action }}
+    needs: scan
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: terraform
+
+    env:
+      AWS_REGION: eu-north-1
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Stop unsafe apply or destroy
+        if: inputs.action != 'plan' && inputs.confirm != 'CONFIRM'
+        run: |
+          echo "You must type CONFIRM to run apply or destroy."
+          exit 1
+
+      - name: Configure AWS credentials using OIDC
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::868256361535:role/ecs-project-github-actions
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform init
+        run: terraform init -reconfigure
+
+      - name: Terraform plan
+        if: inputs.action == 'plan'
+        run: terraform plan
+
+      - name: Terraform apply plan
+        if: inputs.action == 'apply'
+        run: |
+          terraform plan -out=tfplan
+          terraform apply -auto-approve tfplan
+
+      - name: Terraform destroy plan
+        if: inputs.action == 'destroy'
+        run: |
+          terraform plan -destroy -out=tfplan
+          terraform apply -auto-approve tfplan
+
+      - name: Show Terraform outputs
+        if: inputs.action == 'apply'
+        run: terraform output
