@@ -20,5 +20,5 @@ Terraform manages the infrastructure using separate modules for VPC, ALB, ECS, I
 
 # High-level architecture
 
-The diagram below is how I picture the main pieces fitting together.
 
+![alt text](image.png)
