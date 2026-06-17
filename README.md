@@ -10,7 +10,7 @@ I also store Terraform state remotely in Amazon S3 with native state locking ena
 
 # Architecture
 
-When someone opens tm.mustafaabukars.com, Route 53 points the domain to my Application Load Balancer. The load balancer handles HTTPS using an ACM certificate and redirects HTTP traffic to HTTPS.
+When someone opens my app URL , Route 53 points the domain to my Application Load Balancer. The load balancer handles HTTPS using an ACM certificate and redirects HTTP traffic to HTTPS.
 
 From the load balancer, traffic is forwarded to a target group connected to my ECS Fargate service. ECS runs the Threat Composer container using an image stored in Amazon ECR. The application listens on port 3000, and the ECS service keeps the desired task count running.
 
