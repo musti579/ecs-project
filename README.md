@@ -18,8 +18,7 @@ The ECS tasks write logs to CloudWatch Logs through the ECS task execution role.
 
 Terraform manages the infrastructure using separate modules for VPC, ALB, ECS, IAM, ACM, and Route 53. Terraform state is stored remotely in Amazon S3 with native state locking enabled to provide a central source of truth and prevent concurrent infrastructure changes.
 
-# # High-level architecture
+# High-level architecture
 
 The diagram below is how I picture the main pieces fitting together.
 
-(images/Architecture.png)
