@@ -23,5 +23,5 @@ Terraform manages the infrastructure using separate modules for VPC, ALB, ECS, I
 
 ![alt text](image-1.png)
 
-#  GitHub OIDC trust setup
+#  OIDC Trust Policy
 
