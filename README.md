@@ -137,4 +137,13 @@ ecs-project/
 └── .gitignore
 ```
 
+# Areas for Improvement
+
+These are some enhancements I would make to further improve the platform.
+
+Move ECS tasks into private subnets to improve security and reduce direct exposure to the internet.
+Implement blue/green deployments using AWS CodeDeploy to provide safer deployments and faster rollbacks.
+Create separate development, staging, and production environments to allow changes to be tested before reaching production.
+Add CloudWatch Alarms and notifications to improve monitoring and alerting for application and infrastructure issues.
+Continue refining IAM permissions to ensure all roles follow the principle of least privilege.
 
