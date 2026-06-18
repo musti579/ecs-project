@@ -115,24 +115,24 @@ ecs-project/
 │       ├── build.yaml      # Build and push Docker image to ECR
 │       ├── deploy.yaml     # Deploy new task definition to ECS
 │       └── terraform.yaml  # Terraform validation and planning
-├── build/
-├── config/
-├── images/
-├── public/
-├── src/
+├── build/                  # Application build files
+├── config/                 # Application configuration
+├── images/                 # README screenshots and architecture diagrams
+├── public/                 # Public application assets
+├── src/                    # React application source code
 ├── terraform/
-│   ├── bootstrap/
+│   ├── bootstrap/          # One-time setup for S3 backend, ECR, OIDC and IAM roles
 │   ├── modules/
-│   │   ├── acm/
-│   │   ├── alb/
-│   │   ├── ecs/
-│   │   ├── iam/
-│   │   └── vpc/
-│   ├── main.tf
-│   ├── output.tf
-│   └── provider.tf
-├── Dockerfile
-├── package.json
+│   │   ├── acm/            # ACM certificate and DNS validation
+│   │   ├── alb/            # Application Load Balancer and target groups
+│   │   ├── ecs/            # ECS cluster, service and task definitions
+│   │   ├── iam/            # IAM roles and policies
+│   │   └── vpc/            # VPC, subnets and networking
+│   ├── main.tf             # Root Terraform configuration
+│   ├── output.tf           # Terraform outputs
+│   └── provider.tf         # AWS provider configuration
+├── Dockerfile              # Container image definition
+├── package.json            # Node.js dependencies and scripts
 ├── README.md
 └── .gitignore
 ```
