@@ -21,7 +21,7 @@ Terraform manages the infrastructure using separate modules for VPC, ALB, ECS, I
 # High-level architecture
 
 
-![Architecture Diagram](images/architecture.png)
+![Architecture Diagram](images/Architecture.png)
 
 #  OIDC Trust Policy
 I use GitHub OIDC to allow GitHub Actions to assume an AWS IAM role using short-lived credentials. The trust policy restricts access to my repository, removing the need for long-lived AWS access keys.
@@ -89,13 +89,7 @@ The build workflow creates a Docker image for Threat Composer and pushes it to A
 
 ![Build and Push Workflow](images/PushToEcr.png)
 
-## Terraform Workflow
-
-The Terraform workflow validates and plans infrastructure changes before deployment. It authenticates with AWS using OIDC, performs Terraform validation and security checks, and generates a Terraform execution plan against the remote S3 backend.
-
-![Terraform Workflow](images/TerraformScan.png)
-
-## ECS Deployment Workflow
+## Deploy to ECS Workflow
 
 The deployment workflow updates the ECS service with a new application version. It retrieves the current ECS task definition, updates the container image, registers a new task definition revision, and deploys it to ECS.
 
@@ -103,7 +97,43 @@ The deployment workflow updates the ECS service with a new application version. 
 
 The workflow updates the `threatmod-service` service running in the `threatmod-cluster` and waits for the deployment to complete successfully. ECS performs a rolling deployment, ensuring application availability while replacing existing tasks with the new version.
 
+## Terraform Workflow
 
+The Terraform workflow validates and plans infrastructure changes before deployment. It authenticates with AWS using OIDC, performs Terraform validation and security checks, and generates a Terraform execution plan against the remote S3 backend.
+
+![Terraform Workflow](images/TerraformScan.png)
+
+
+# Repository Structure
+
+The tree below is a high-level overview of how I organised the project.
+
+ecs-project/
+├── .github/
+│   └── workflows/
+│       ├── build.yaml      # Build and push Docker image to ECR
+│       ├── deploy.yaml     # Deploy new task definition to ECS
+│       └── terraform.yaml  # Terraform validation and planning
+├── build/                  # Application build files
+├── config/                 # Application configuration
+├── images/                 # README screenshots and architecture diagrams
+├── public/                 # Public application assets
+├── src/                    # React application source code
+├── terraform/
+│   ├── bootstrap/          # One-time setup for S3 backend, ECR, OIDC and IAM roles
+│   ├── modules/
+│   │   ├── acm/            # ACM certificate and DNS validation
+│   │   ├── alb/            # Application Load Balancer and target groups
+│   │   ├── ecs/            # ECS cluster, service and task definitions
+│   │   ├── iam/            # IAM roles and policies
+│   │   └── vpc/            # VPC, subnets and networking
+│   ├── main.tf             # Root Terraform configuration
+│   ├── output.tf           # Terraform outputs
+│   └── provider.tf         # AWS provider configuration
+├── Dockerfile              # Container image definition
+├── package.json            # Node.js dependencies and scripts
+├── README.md
+└── .gitignore
 
 
 
