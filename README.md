@@ -21,12 +21,12 @@ Terraform manages the infrastructure using separate modules for VPC, ALB, ECS, I
 # High-level architecture
 
 
-![alt text](Architecture.png)
+![Architecture Diagram](images/architecture.png)
 
 #  OIDC Trust Policy
 I use GitHub OIDC to allow GitHub Actions to assume an AWS IAM role using short-lived credentials. The trust policy restricts access to my repository, removing the need for long-lived AWS access keys.
 
-![alt text](TrustedPolicy.png)
+![OIDC Trust Policy](images/TrustedPolicy.png)
 
 # Security and Guardrails
 
