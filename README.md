@@ -79,6 +79,31 @@ The deployment workflow retrieves the latest task definition, updates it with th
 
 ECS performs a rolling deployment, replacing existing tasks with the new version while maintaining service availability.
 
+# CI/CD Pipeline
+
+I use GitHub Actions to automate the build, infrastructure, and deployment process. All workflows authenticate to AWS using OpenID Connect (OIDC), allowing GitHub Actions to assume an IAM role and receive temporary AWS credentials at runtime.
+
+## Build and Push Workflow
+
+The build workflow creates a Docker image for Threat Composer and pushes it to Amazon ECR. The workflow authenticates with AWS using OIDC, logs into ECR, builds the Docker image using Docker Buildx, performs a vulnerability scan using Grype, and pushes the image to the ECR repository.
+
+![Build and Push Workflow](images/PushToEcr.png)
+
+## Terraform Workflow
+
+The Terraform workflow validates and plans infrastructure changes before deployment. It authenticates with AWS using OIDC, performs Terraform validation and security checks, and generates a Terraform execution plan against the remote S3 backend.
+
+![Terraform Workflow](images/TerraformScan.png)
+
+## ECS Deployment Workflow
+
+The deployment workflow updates the ECS service with a new application version. It retrieves the current ECS task definition, updates the container image, registers a new task definition revision, and deploys it to ECS.
+
+![Deploy Workflow](images/DeployToEcs.png)
+
+The workflow updates the `threatmod-service` service running in the `threatmod-cluster` and waits for the deployment to complete successfully. ECS performs a rolling deployment, ensuring application availability while replacing existing tasks with the new version.
+
+
 
 
 
