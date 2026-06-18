@@ -1,6 +1,6 @@
-# Production-Style Deployment of a React Single-Page Application on AWS
+# Production Style Deployment of a React Single Page Application on AWS
 
-A production-style deployment of a React single-page application (SPA) on AWS using Amazon ECS Fargate, Terraform, and GitHub Actions.
+A production style deployment of a React single-page application (SPA) on AWS using Amazon ECS Fargate, Terraform, and GitHub Actions.
 
 The application is containerised with Docker and deployed to Amazon ECS Fargate behind an Application Load Balancer. Container images are stored in Amazon ECR and released using ECS rolling deployments, while Route 53 and ACM provide DNS routing and TLS termination.
 
@@ -18,7 +18,7 @@ Application logs are sent to CloudWatch Logs, while security groups restrict tra
 
 Infrastructure is provisioned through Terraform modules for VPC, ALB, ECS, IAM, ACM, and Route 53. Terraform state is stored remotely in Amazon S3 with native state locking enabled.
 
-# High-level architecture
+# High level architecture
 
 
 ![Architecture Diagram](images/Architecture.png)
