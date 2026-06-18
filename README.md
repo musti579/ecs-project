@@ -1,12 +1,12 @@
 # Production Style Deployment of a React Single Page Application on AWS
 
-A production style deployment of a React single-page application (SPA) on AWS using Amazon ECS Fargate, Terraform, and GitHub Actions.
+A production style deployment of a React single page application (SPA) on AWS using Amazon ECS Fargate, Terraform, and GitHub Actions.
 
 The application is containerised with Docker and deployed to Amazon ECS Fargate behind an Application Load Balancer. Container images are stored in Amazon ECR and released using ECS rolling deployments, while Route 53 and ACM provide DNS routing and TLS termination.
 
 Infrastructure is managed through reusable Terraform modules covering networking, load balancing, ECS, IAM, ACM, and DNS management. Terraform state is stored remotely in Amazon S3 with native state locking enabled.
 
-GitHub Actions authenticates to AWS through OpenID Connect (OIDC), allowing workflows to assume IAM roles using temporary credentials instead of long-lived AWS access keys.
+GitHub Actions authenticates to AWS through OpenID Connect (OIDC), allowing workflows to assume IAM roles using temporary credentials instead of long lived AWS access keys.
 
 # Architecture
 
@@ -31,7 +31,7 @@ Infrastructure is provisioned through Terraform modules for VPC, ALB, ECS, IAM, 
 
 #  OIDC Trust Policy
 
-GitHub Actions authenticates to AWS using OpenID Connect (OIDC). The IAM trust policy restricts role assumption to the repository, allowing workflows to use temporary credentials instead of long-lived AWS access keys.
+GitHub Actions authenticates to AWS using OpenID Connect (OIDC). The IAM trust policy restricts role assumption to the repository, allowing workflows to use temporary credentials instead of long lived AWS access keys.
 
 ![OIDC Trust Policy](images/TrustedPolicy.png)
 
