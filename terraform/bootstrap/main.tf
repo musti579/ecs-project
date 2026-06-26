@@ -48,7 +48,7 @@ resource "aws_iam_role" "github_actions" {
         }
 
         StringLike = {
-          "token.actions.githubusercontent.com:sub" = "repo:musti579/ecs-project:*"
+          "token.actions.githubusercontent.com:sub" = "repo:musti579/react-spa-on-aws:*"
         }
       }
     }]
